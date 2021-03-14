@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="alert alert-info" role="alert">
+        Hledali jste slovo: <strong>"{{ searched }}"</strong> - Počet nalezených
+        výsledků: {{ findings }} ({{ time }} s)
+    </div>
+
+    <div class="row">
+        <div class="col-7">
+            <div class="list-group" id="list-tab" role="tablist">
+                {% for site in sites %}
+                    <a onclick="return loadIframe(this.href)" href="{{ site.url }}"
+                       class="list-group-item list-group-item-action flex-column align-items-start" role="tab"
+                       data-toggle="list">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ site.title }}</h5>
+                        </div>
+                        <p class="mb-1">
+                            ...{{ site.content | begin }}
+                            <b class="text-dark bg-warning">{{ site.content | match }}</b>
+                            {{ site.content | end }}...
+                        </p>
+                        <small>{{ site.url }}</small>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-5">
+            <div class="tab-content sticky-top fixed-top-margin" id="nav-tabContent">
+                <a id="go-to-page-link" href="" class="btn btn-primary btn-lg disabled mb-3 btn-block" role="button"
+                   aria-disabled="true">Přejít na stránku</a>
+
+                <div class="embed-responsive embed-responsive-1by1">
+                    <div id="iframe-background" class="loaded">
+                        <iframe class="embed-responsive-item" id="frame" name="frame" src="" title="title"
+                                onload="onLoadIframe()">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/functions.js"></script>
+{% endblock %}
