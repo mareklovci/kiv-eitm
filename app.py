@@ -65,16 +65,17 @@ def index():
 def search():
     param = request.args.get('text')
 
-    start = time.time()
+    start_time = time.time()
     sites = Website.query.msearch(param, fields=['content']).all()
-    end = time.time()
+    end_time = time.time()
 
     return render_template('search.html',
                            sites=sites,
-                           time=round(end - start, 2),
+                           time=round(end_time - start_time, 2),
                            findings=len(sites),
                            searched=param)
 
 
 if __name__ == '__main__':
+    # Run Application
     app.run(debug=True)
