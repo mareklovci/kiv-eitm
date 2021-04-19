@@ -57,6 +57,12 @@ def match(text):
     return text[matching[0]:matching[1]]
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -82,11 +88,10 @@ def crawl():
     param = request.args.get('text')
 
     start_time = time.time()
-    scrapper.crawl(param)
+    scrapper.main(param)
     end_time = time.time()
 
-    return render_template('index.html',
-                           scrapped_flag=True)
+    return render_template('index.html', scrapped_flag=True)
 
 
 if __name__ == '__main__':

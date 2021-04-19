@@ -1,17 +1,10 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <!--h1>Úvodní stránka</h1-->
-    <h1>
-        <b class="text-primary">G</b>
-        <b class="text-danger">O</b>
-        <b class="text-warning">O</b>
-        <b class="text-primary">G</b>
-        <b class="text-success">O</b>
-        <b class="text-danger">L</b>
-    </h1>
-    <p class="lead">Prosím, zadejte hledané slovo.</p>
 
+    <h1 class="my-5">
+        Web Scrapper 0.0
+    </h1>
 
     {% if scrapped_flag %}
         <div class="alert alert-success" role="alert">
@@ -20,23 +13,21 @@
     {% endif %}
 
     <div class="row" >
-        <div class="col-6">
-            <form class="form-inline my-2 my-lg-0" method="get" action="crawl">
-                    <input id="crawl-field" class="form-control mr-sm-2" type="text" name="text" placeholder="Crawl"
+        <div class="col-md-6 col-sm-12">
+            <form class="my-2 my-lg-0" method="get" action="crawl">
+                    <input id="crawl-field" class="form-control my-3" type="url" name="text" placeholder="Crawl"
                            aria-label="Crawl" value="">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Crawl</button>
+                    <button class="btn btn-outline-success" type="submit">Crawl</button>
             </form>
         </div>
 
-        <div class="col-6">
-            <form class="form-inline my-2 my-lg-0" method="get" action="search">
-                    <input id="search-field" class="form-control mr-sm-2" type="text" name="text" placeholder="Hledat"
+        <div class="col-md-6 col-sm-12">
+            <form class="my-2 my-lg-0" method="get" action="search">
+                    <input id="search-field" class="form-control my-3" type="text" name="text" placeholder="Search"
                            aria-label="Search" value="">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hledat</button>
+                    <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
     </div>
-
-
 
 {% endblock %}

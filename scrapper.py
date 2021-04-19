@@ -1,8 +1,6 @@
 import re
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-import json
-import io
 import os
 from collections import deque
 from urllib import request as req
@@ -87,16 +85,10 @@ def make_title(soup) -> str:
 
 
 def process_text(soup):
-    def group_text(scra):
-        """Joins text from list to one string"""
-        string = ' '.join(scra)
-        string = re.sub(r'\s+', ' ', string)
-        return string
-
-    # List stringů z <p> tagů
-    scrap = list(scrap_text(soup))
-    text = group_text(scrap)
-    return text
+    scrap = list(scrap_text(soup))  # List of strings from <p> tags
+    text1 = ' '.join(scrap)
+    text2 = re.sub(r'\s+', ' ', text1)
+    return text2
 
 
 def process_urls(soup, current_url):
@@ -145,28 +137,6 @@ def _get_path(folder: str = 'storage') -> str:
     return path
 
 
-def save(title: str, content: str, url: str):
-    """Na základě názvu, obsahu a url vygeneruje soubor s daty a uloží na disk do složky '../storage'
-    :param title: název stránky
-    :param content: obsah stránky
-    :param url: url stránky
-    """
-    global prefix
-    prefix += 1
-    title = make_safe_filename(title)
-    json_file = {'title': title, 'url': url, 'content': content}
-    path = _get_path()  # gets path to 'storage' folder
-    path = os.path.join(path + str(prefix) + ' - ' + title + '.json')
-
-    with io.open(path, 'w', encoding='utf8') as jsf:
-        data = json.dumps(json_file, ensure_ascii=False)
-        try:
-            jsf.write(data)
-        except TypeError:
-            # Decode data to Unicode first
-            jsf.write(data.decode('utf8'))
-
-
 def skip_page():
     """Skips page which is not possible to process"""
     global depth, urls_per_level, counted_urls, urls_to_process, saved_urls
@@ -177,14 +147,7 @@ def skip_page():
         depth += 1
 
 
-def crawl(url):
-    main(url)
-
-
-def main(start_url='https://cs.wikipedia.org/wiki/Bakal%C3%A1%C5%99'):
-    # Hloubka prohledávání
-    max_depth = 2
-
+def main(start_url: str = 'https://cs.wikipedia.org/wiki/Wikipedie:%C4%8Cl%C3%A1nek_t%C3%BDdne', max_depth: int = 2):
     # Inicializace globálních proměnných
     global depth, urls_per_level, counted_urls, urls_to_process, saved_urls
     saved_urls.add(start_url)
@@ -193,8 +156,7 @@ def main(start_url='https://cs.wikipedia.org/wiki/Bakal%C3%A1%C5%99'):
     # Cyklus zpracovávající po sobě řazené URLS ve frontě
     while depth < max_depth:
         if not urls_to_process:
-            print('Byli uloženy veškeré stránky dosažitelné ze vstupního URL')
-            exit(0)
+            return
 
         # URL ke zpracování
         url_to_read = urls_to_process.popleft()
@@ -219,7 +181,7 @@ def main(start_url='https://cs.wikipedia.org/wiki/Bakal%C3%A1%C5%99'):
             skip_page()
             continue
 
-        # Uložení JSONU s potřebnými daty
+        # Save to DB
         new_website = Website(title=title, content=text, url=url_to_read)
         db.session.add(new_website)
         db.session.commit()
