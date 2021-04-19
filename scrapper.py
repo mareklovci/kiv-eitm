@@ -177,9 +177,11 @@ def skip_page():
         depth += 1
 
 
-def main():
-    # Startovní url
-    start_url = 'https://cs.wikipedia.org/wiki/Bakal%C3%A1%C5%99'
+def crawl(url):
+    main(url)
+
+
+def main(start_url='https://cs.wikipedia.org/wiki/Bakal%C3%A1%C5%99'):
     # Hloubka prohledávání
     max_depth = 2
 

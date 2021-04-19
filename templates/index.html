@@ -12,4 +12,31 @@
     </h1>
     <p class="lead">Prosím, zadejte hledané slovo.</p>
 
+
+    {% if scrapped_flag %}
+        <div class="alert alert-success" role="alert">
+            Page has been scrapped.
+        </div>
+    {% endif %}
+
+    <div class="row" >
+        <div class="col-6">
+            <form class="form-inline my-2 my-lg-0" method="get" action="crawl">
+                    <input id="crawl-field" class="form-control mr-sm-2" type="text" name="text" placeholder="Crawl"
+                           aria-label="Crawl" value="">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Crawl</button>
+            </form>
+        </div>
+
+        <div class="col-6">
+            <form class="form-inline my-2 my-lg-0" method="get" action="search">
+                    <input id="search-field" class="form-control mr-sm-2" type="text" name="text" placeholder="Hledat"
+                           aria-label="Search" value="">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Hledat</button>
+            </form>
+        </div>
+    </div>
+
+
+
 {% endblock %}

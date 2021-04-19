@@ -4,6 +4,7 @@
 import datetime
 import re
 import time
+import scrapper
 
 from flask import Flask, render_template, request
 from flask_msearch import Search
@@ -74,6 +75,18 @@ def search():
                            time=round(end_time - start_time, 2),
                            findings=len(sites),
                            searched=param)
+
+
+@app.route('/crawl')
+def crawl():
+    param = request.args.get('text')
+
+    start_time = time.time()
+    scrapper.crawl(param)
+    end_time = time.time()
+
+    return render_template('index.html',
+                           scrapped_flag=True)
 
 
 if __name__ == '__main__':
