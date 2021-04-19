@@ -23,7 +23,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Create database
         run: |
-          python create_db.py
+          python models.py
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names

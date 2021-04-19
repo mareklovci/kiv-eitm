@@ -30,7 +30,7 @@
         <div class="col-5">
             <div class="tab-content sticky-top fixed-top-margin" id="nav-tabContent">
                 <a id="go-to-page-link" href="" class="btn btn-primary btn-lg disabled mb-3 btn-block" role="button"
-                   aria-disabled="true">Přejít na stránku</a>
+                   aria-disabled="true">Go to Page</a>
 
                 <div class="embed-responsive embed-responsive-1by1">
                     <div id="iframe-background" class="loaded">
@@ -43,5 +43,5 @@
         </div>
     </div>
 
-    <script src="/static/js/functions.js"></script>
+    <script src="{{ url_for('static', filename='/js/functions.js') }}"></script>
 {% endblock %}
