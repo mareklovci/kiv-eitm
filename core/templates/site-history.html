@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% from "macros/render_pagination.html" import render_pagination %}
+
+{% block body %}
+
+    <h1 class="my-5">
+        {{ title }}
+    </h1>
+
+    <a href="{{ url }}" class="btn btn-primary btn-lg my-3" role="button">Go to Page</a>
+
+    <div class="row">
+        {% for site in sites %}
+            <div class="col-md-2 col-md-4 col-sm-6">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ site.created | format_datetime() }}</h5>
+                        <p class="card-text text-justify">{{ site.content | truncate(256) }}</p>
+                        <a href="{{ url_for('article', article_id=site.id) }}" class="card-link">Full page</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

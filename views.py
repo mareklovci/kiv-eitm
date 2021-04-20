@@ -12,7 +12,10 @@ import logging
 
 @app.route('/crawl-history')
 def crawl_history():
-    return render_template('crawl-history.html')
+    page = request.args.get('page', default=1, type=int)
+    sites = Website.query.order_by(Website.created.desc()).filter_by(newest=True)\
+        .paginate(page=page, per_page=6)
+    return render_template('crawl-history.html', sites=sites.items, crawls=sites)
 
 
 @app.route('/search-history')
@@ -20,6 +23,19 @@ def search_history():
     page = request.args.get('page', default=1, type=int)
     searches = Searches.query.order_by(Searches.created.desc()).paginate(page=page, per_page=6)
     return render_template('search-history.html', items=searches.items, searches=searches)
+
+
+@app.route('/crawl-history/<int:website_id>')
+def web_history(website_id):
+    new_site: Website = Website.query.get_or_404(website_id)
+    old_sites = Website.query.order_by(Website.created.desc()).filter_by(url=new_site.url).all()
+    return render_template('site-history.html', sites=old_sites, title=new_site.title, url=new_site.url)
+
+
+@app.route('/article/<int:article_id>')
+def article(article_id):
+    art: Website = Website.query.get_or_404(article_id)
+    return render_template('article.html', site=art)
 
 
 @app.errorhandler(404)
