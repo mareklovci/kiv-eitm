@@ -20,7 +20,13 @@ class Website(db.Model):
     url = db.Column(db.String(255))
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     processed = db.Column(db.Boolean, default=False)
-    level = db.Column(db.Integer, default=0)
+    newest = db.Column(db.Boolean, default=True)
+
+
+class Searches(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(255))
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 
 def main():

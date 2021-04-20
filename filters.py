@@ -3,6 +3,7 @@ import re
 from flask import request
 
 from core import app
+from babel.dates import format_datetime as fdt
 
 
 @app.template_filter()
@@ -29,3 +30,9 @@ def match(text):
     param = request.args.get('text')
     matching = re.search(param, text, re.IGNORECASE).span()
     return text[matching[0]:matching[1]]
+
+
+@app.template_filter()
+def format_datetime(value):
+    form = "HH:mm, dd.MM.yyyy"
+    return fdt(value, form)
