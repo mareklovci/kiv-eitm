@@ -76,7 +76,7 @@ def crawl():
     urls, title, text = process_html(r.content, param)
 
     # Disable old entry from search
-    old_entry: Website = Website.query.filter_by(newest=True).first()
+    old_entry: Website = Website.query.filter_by(url=param, newest=True).first()
     if old_entry:
         old_entry.newest = False
         db.session.commit()
